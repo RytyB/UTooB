@@ -1,0 +1,12 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+# Ignore user specific parameters
+resources
+
+# Dummy check to make sure secrets don't slip in with the build
+client_secret.json
+userPrefs.json
