@@ -15,16 +15,16 @@ project and enabling the YouTube Data API v3.
 <br> https://console.cloud.google.com/cloud-resource-manager 
 <br>
 <br> Download the OAuth 2.0 as a json and rename it and relocate it as the following within the project directory:
-<br> ./videoInfo/src/main/resources/client_secret.json 
+<br> <i> ./videoInfo/src/main/resources/client_secret.json </i> 
 <br>
 <br> Copy the API key into a new text file called apiKey.txt without any formatting. Move the text file to the project home directory.
-<br> ./apiKey.txt </p>
+<br> <i> ./apiKey.txt </i> </p>
 
 <h2> Changing Whitelist of Creators </h2>
 <h3> Setup </h3>
 <p> The user needs a working python installation and the json and YouTube API libraries installed. The requisite libraries can
 be installed with the following commands:
-<br> python3 -m pip install --upgrade google-api-python-client
+<br> <i> python3 -m pip install --upgrade google-api-python-client </i>
 <br>
 <br> The whitelist of creators is stored in a file called <i>./videoInfo/src/main/resources/userPrefs.json </i>. After cloning the sample 
 the user will need to make a copy of the file <i> userPrefs1.json </i> in the same directory. <i> userPrefs1.json </i> Should 
