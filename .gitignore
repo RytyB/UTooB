@@ -10,3 +10,4 @@ resources
 # Dummy check to make sure secrets don't slip in with the build
 client_secret.json
 userPrefs.json
+apiKey.txt

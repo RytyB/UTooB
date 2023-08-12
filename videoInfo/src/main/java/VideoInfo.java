@@ -36,6 +36,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 
+
+
 // Class should create a list of recent video objects from the selected creators and package them nicely for 
 //  use in the window application. This should never be called as main
 public class VideoInfo {
@@ -55,6 +57,7 @@ public class VideoInfo {
         private static final String channelPath = "/userPrefs.json";
 
         public ArrayList<String> channelIds;
+        public ArrayList<String> channelNames;
 
         public ChannelRead() 
         throws ParseException, IOException {
@@ -68,10 +71,12 @@ public class VideoInfo {
             JSONArray slightlyLessJson = (JSONArray) wholeJson.get("channel");
 
             channelIds = new ArrayList<String>();
+            channelNames = new ArrayList<String>();
 
             for (int index = 0; index < slightlyLessJson.size(); index++) {
                 JSONObject aChannel = (JSONObject) slightlyLessJson.get(index);
                 channelIds.add( aChannel.get("channelId").toString() );
+                channelNames.add( aChannel.get("name").toString() );
             }
             
         }
@@ -101,31 +106,35 @@ public class VideoInfo {
             publishedAt = result.getSnippet().getPublishedAt();
 
             String isoToParse = deets.getContentDetails().getDuration();
-            if (isoToParse.contains("M") != true) {
-                duration = Integer.parseInt("0");
+            if (isoToParse.contains("H")) {
+                duration = 60;
             }
             else {
-                boolean toAdd = false;
-                StringBuffer minutes = new StringBuffer();
-                
-                for (int i = 0; i < isoToParse.length(); i++) {
-                    if ( isoToParse.charAt(i) == 'M' ) {
-                        toAdd = false;
-                    }
+                if (isoToParse.contains("M") != true) {
+                    duration = 0;
+                }
+                else {
+                    boolean toAdd = false;
+                    StringBuffer minutes = new StringBuffer();
 
-                    if (toAdd) {
-                        minutes.append( isoToParse.charAt(i) );
-                    }
+                    for (int i = 0; i < isoToParse.length(); i++) {
+                        if ( isoToParse.charAt(i) == 'M' ) {
+                            toAdd = false;
+                        }
 
-                    if ( isoToParse.charAt(i) == 'T' ) {
-                        toAdd = true;
-                    }
+                        if (toAdd) {
+                            minutes.append( isoToParse.charAt(i) );
+                        }
 
-                } 
+                        if ( isoToParse.charAt(i) == 'T' ) {
+                            toAdd = true;
+                        }
 
-                duration = Integer.parseInt( minutes.toString() );
+                    } 
+
+                    duration = Integer.parseInt( minutes.toString() );
+                }
             }
-
 
         }
 
@@ -133,6 +142,7 @@ public class VideoInfo {
 
     // Class attributes to be accessed in window application
     public ArrayList<video> videoList;
+    public ArrayList<String> channelList;
 
 
     /*
@@ -234,6 +244,7 @@ public class VideoInfo {
 
         // read in list of channel ids from json in resources
         ChannelRead channels = new ChannelRead();
+        channelList = channels.channelNames;
         // for channel in the json
 
         for (int counter = 0; counter < channels.channelIds.size(); counter++){
@@ -242,7 +253,7 @@ public class VideoInfo {
                 .list("snippet");
             SearchListResponse response = request.setChannelId( channels.channelIds.get(counter) )
                 .setOrder("date")
-                .setMaxResults(10L)
+                .setMaxResults(30L)  // We need 12 videos per channel after filtering shorts
                 .execute();
 
 
@@ -260,7 +271,7 @@ public class VideoInfo {
 
                 video myVideo = new video( response.getItems().get(creatorVid), theDeets.getItems().get(0) );
 
-                if ( myVideo.duration > 2 ) {
+                if ( myVideo.duration > 2 && tempList.size() < 12 ) {
                     tempList.add( myVideo );
                 }
             }
