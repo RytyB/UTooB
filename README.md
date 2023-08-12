@@ -43,7 +43,14 @@ in the main project directory. In theory, the whitelist can be manually altered 
 <br> In the case, the channel name must be exact. The command will look for the channel in the whitelist and remove it if it is found.
 
 <h2> Running the Application </h2>
-Once the inordinate amount of setup is complete, the sample should run fairly easily by running the gradle wrapper batch file (<i> ./gradlew.bat </i>) on Windows or the normal wrapper (<i> ./gradlew </i>) on Linux. 
+Once the inordinate amount of setup is complete, the sample should run fairly easily using the gradle wrapper batch file (<i> ./gradlew.bat </i>) on Windows or the normal wrapper (<i> ./gradlew </i>) on Linux. The user only needs a working Java installation and know how to use the command line. 
+<h3> On Windows </h3>
+From project directory:
+<i> gradlew.bat run </i>
+
+<h3> On Linux </i>
+From project directory:
+<i> ./gradlew run </i>
 
 <h2> Contact and Future Improvements </h2>
 <ul> Please see the issues list to see what functionality I intend to add. </ul>
